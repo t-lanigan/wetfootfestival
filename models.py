@@ -24,7 +24,7 @@ Person
 Have title and release year
 '''
 class Person(db.Model):  
-  __tablename__ = 'people'
+  __tablename__ = 'peoples'
 
   id = Column(Integer, primary_key=True)
   name = Column(String)

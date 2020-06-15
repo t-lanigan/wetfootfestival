@@ -1,2 +1,2 @@
-export DATABASE_URL='postgres://postgres:postgres@localhost:5432/postgres'
+export DATABASE_URL='postgres://tyler@localhost:5432/wetfootfestival'
 export EXCITED='true'

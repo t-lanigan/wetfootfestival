@@ -20,13 +20,13 @@ connect-to-db:
 	psql $(DB_NAME)
 
 init-db:
-	python3 manage.py db init
+	python manage.py db init
 
 migrate-db:
-	python3 manage.py db migrate
+	python manage.py db migrate
 
 upgrade-db:
-	python3 manage.py db upgrade
+	python manage.py db upgrade
 
 deploy:
 	git push heroku master

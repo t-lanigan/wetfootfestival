@@ -3,6 +3,9 @@ include makeenv
 
 DB_NAME := wetfootfestival
 
+deps:
+	pip3 install -r requirements.txt
+
 run:
 	FLASK_APP=app.py FLASK_ENV=development flask run
 

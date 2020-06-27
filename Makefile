@@ -11,7 +11,8 @@ run:
 
 reset-db:
 	dropdb $(DB_NAME) && createdb $(DB_NAME)
-	flask db upgrade
+	python3 manage.py db upgrade
+	python3 add_fake_data.py
 
 start-db-server:
 	pg_ctl -D /usr/local/var/postgres start
@@ -33,3 +34,6 @@ upgrade-db:
 
 deploy:
 	git push heroku master
+
+add-fake-data:
+	python3 add_fake_data.py

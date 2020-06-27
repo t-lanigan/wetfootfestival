@@ -12,6 +12,7 @@ setup_db(app)
     binds a flask application and a SQLAlchemy service
 '''
 def setup_db(app, database_path=database_path):
+    print(database_path)
     app.config["SQLALCHEMY_DATABASE_URI"] = database_path
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     db.app = app
@@ -47,12 +48,13 @@ class Volunteer(CommonModel):
 class Artist(CommonModel):
     __tablename__ = 'artists'
 
+    event = db.Column(db.Integer, db.ForeignKey('events.id'), nullable=False)
     # Arrays works for postsgres, but not everything.
     genres = db.Column(db.ARRAY(db.String()))
-    event = db.Column(db.Integer, db.ForeignKey('events.id'), nullable=False)
+
     website = db.Column(db.String(200))
-    instagram_page = db.Column(db.String(200))
-    
+    instagram_link = db.Column(db.String(200))
+
     #TODO: This will eventually need to be something that they upload.
     image_link = db.Column(db.String(500))
 
@@ -66,8 +68,11 @@ class Event(CommonModel):
     start_time = db.Column(db.DateTime, nullable=False)
     end_time = db.Column(db.DateTime, nullable=False)
     venue_name = db.Column(db.String, nullable=False)
-    artists = db.relationship('Artist', backref='event', lazy=True)
-    volunteers = db.relationship('Volunteer', backref='event', lazy=True)
+    artists = db.relationship('Artist', backref='artist_event', lazy=True)
+    volunteers = db.relationship('Volunteer', backref='volunteer_event', lazy=True)
+    theme = db.Column(db.String, nullable=False)
+    website = db.Column(db.String(200))
+
 
     def __repr__(self):
         return f'<Event ID: {self.id} Venue Name: {self.venue_name} Start Time: {self.start_time}>'

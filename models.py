@@ -51,7 +51,8 @@ class Artist(CommonModel):
     genres = db.Column(db.ARRAY(db.String()))
     event = db.Column(db.Integer, db.ForeignKey('events.id'), nullable=False)
     website = db.Column(db.String(200))
-
+    instagram_page = db.Column(db.String(200))
+    
     #TODO: This will eventually need to be something that they upload.
     image_link = db.Column(db.String(500))
 

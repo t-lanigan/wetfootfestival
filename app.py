@@ -18,14 +18,14 @@ def create_app(test_config=None):
             response, code -- the response and code
         """
         response = jsonify({
-            "success": True,
+            'success': True,
         })
 
         return response, 200
 
-    '''
-    ---------- Volunteer controllers
-    '''
+    #---------------------------------------
+    #           VOLUNTEER CONTROLLERS
+    #---------------------------------------
     @app.route('/volunteers/<int:volunteer_id>', methods=['GET'])
     def get_volunteer(volunteer_id):
         """Gets a single volunteer
@@ -39,8 +39,8 @@ def create_app(test_config=None):
         try:
             volunteer = Volunteer.query.filter_by(id=volunteer_id).one_or_none()
             response = jsonify({
-                "volunteer": volunteer.format(),
-                "success": True
+                'volunteers': volunteer.format(),
+                'success': True
             })
             return response, 200
         except Exception as e:
@@ -57,8 +57,8 @@ def create_app(test_config=None):
         """
         try:
             response = jsonify({
-                "volunteer": [volunteer.format() for volunteer in Volunteer.query.all()],
-                "success": True
+                'volunteers': [volunteer.format() for volunteer in Volunteer.query.all()],
+                'success': True
             })
             return response, 200
         except Exception as e:
@@ -75,15 +75,15 @@ def create_app(test_config=None):
         try:
             body = request.get_json()
             volunteer = Volunteer(
-                name=body.get("name"),
-                phone_number=body.get("phone_number"),
-                email=body.get("email"),
-                event=body.get("event"),
+                name=body.get('name'),
+                phone_number=body.get('phone_number'),
+                email=body.get('email'),
+                event=body.get('event'),
             )
             volunteer.insert()
             return jsonify({
-                "success": True,
-                "volunteer": volunteer.format()
+                'success': True,
+                'volunteers': volunteer.format()
             }), 201
         except Exception as e:
             app.logger.error(e)
@@ -103,14 +103,14 @@ def create_app(test_config=None):
             body = request.get_json()
             volunteer = Volunteer.query.filter_by(id=volunteer_id).one_or_none()
 
-            volunteer.name = body.get("name", volunteer.name)
-            volunteer.phone_number = body.get("phone_number", volunteer.phone_number)
-            volunteer.email = body.get("email", volunteer.email)
-            volunteer.event = body.get("event", volunteer.event)
+            volunteer.name = body.get('name', volunteer.name)
+            volunteer.phone_number = body.get('phone_number', volunteer.phone_number)
+            volunteer.email = body.get('email', volunteer.email)
+            volunteer.event = body.get('event', volunteer.event)
 
             return jsonify({
-                "success": True,
-                "volunteer": volunteer.format()
+                'success': True,
+                'volunteers': volunteer.format()
             }), 200
         except Exception as e:
             app.logger.error(e)
@@ -122,32 +122,32 @@ def create_app(test_config=None):
             volunteer = Volunteer.query.filter_by(id=volunteer_id).one_or_none()
             volunteer.delete()
             return jsonify({
-                "success": True,
+                'success': True,
             }), 200
         except Exception as e:
             app.logger.error(e)
             abort(500)
     
     
-    '''
-    ---------- Artist controllers
-    '''
+    #---------------------------------------
+    #           ARTIST CONTROLLERS
+    #---------------------------------------
 
     @app.route('/artists/<int:artist_id>', methods=['GET'])
-    def get_artist(artists_id):
+    def get_artist(artist_id):
         """Gets a single artist
 
         Args:
-            artists_id ([type]): The aritst id e.g "1"
+            artists_id ([type]): The artist id e.g "1"
 
         Returns:
             response: json, status code
         """
         try:
-            artist = Artist.query.filter_by(id=artists_id).one_or_none()
+            artist = Artist.query.filter_by(id=artist_id).one_or_none()
             response = jsonify({
-                "volunteer": artist.format(),
-                "success": True
+                'artists': artist.format(),
+                'success': True
             })
             return response, 200
         except Exception as e:
@@ -164,8 +164,8 @@ def create_app(test_config=None):
         """
         try:
             response = jsonify({
-                "volunteer": [artist.format() for artist in Artist.query.all()],
-                "success": True
+                'artists': [artist.format() for artist in Artist.query.all()],
+                'success': True
             })
             return response, 200
         except Exception as e:
@@ -182,24 +182,25 @@ def create_app(test_config=None):
         try:
             body = request.get_json()
             artist = Artist(
-                name=body.get("name"),
-                phone_number=body.get("phone_number"),
-                email=body.get("email"),
-                website=body.get("website"),
-                instagram_link=body.get("instagram_link"),
-                image_link=body.get("image_link")
+                name=body.get('name'),
+                phone_number=body.get('phone_number'),
+                email=body.get('email'),
+                event=body.get('event'),
+                website=body.get('website'),
+                instagram_link=body.get('instagram_link'),
+                image_link=body.get('image_link')
             )
             artist.insert()
             return jsonify({
                 "success": True,
-                "volunteer": artist.format()
+                "artists": artist.format()
             }), 201
         except Exception as e:
             app.logger.error(e)
             abort(422)
 
-    @app.route('/artists/<int:artists_id>', methods=['PATCH'])
-    def update_artist(artists_id):
+    @app.route('/artists/<int:artist_id>', methods=['PATCH'])
+    def update_artist(artist_id):
         """Updates a artists
 
         Args:
@@ -210,40 +211,40 @@ def create_app(test_config=None):
         """
         try:
             body = request.get_json()
-            artist = Artist.query.filter_by(id=artists_id).one_or_none()
+            artist = Artist.query.filter_by(id=artist_id).one_or_none()
 
-            artist.name = body.get("name", artists.name)
-            artist.phone_number = body.get("phone_number", artist.phone_number)
-            artist.email = body.get("email", artist.email)
-            artist.event = body.get("event", artist.event)
-            artist.event = body.get("website", artist.webiste)
-            artist.event = body.get("instagram_link", artist.instagram_link)
-            artist.event = body.get("image_link", artist.image_link)
+            artist.name = body.get('name', artist.name)
+            artist.phone_number = body.get('phone_number', artist.phone_number)
+            artist.email = body.get('email', artist.email)
+            artist.event = body.get('event', artist.event)
+            artist.website = body.get('website', artist.website)
+            artist.instagram_link = body.get('instagram_link', artist.instagram_link)
+            artist.image_link = body.get('image_link', artist.image_link)
             artist.update()
             
             return jsonify({
-                "success": True,
-                "volunteer": artist.format()
+                'success': True,
+                'artists': artist.format()
             }), 200
         except Exception as e:
             app.logger.error(e)
             abort(422)
 
-    @app.route('/artists/<int:artists_id>', methods=['DELETE'])
-    def delete_artists(artists_id):
+    @app.route('/artists/<int:artist_id>', methods=['DELETE'])
+    def delete_artists(artist_id):
         try:
-            artists = Artists.query.filter_by(id=artists_id).one_or_none()
+            artists = Artist.query.filter_by(id=artist_id).one_or_none()
             artists.delete()
             return jsonify({
-                "success": True,
+                'success': True,
             }), 200
         except Exception as e:
             app.logger.error(e)
             abort(500)
 
-    '''
-    ---------- Event controllers
-    '''
+    #---------------------------------------
+    #           EVENT CONTROLLERS
+    #---------------------------------------
 
     @app.route('/events/<int:event_id>', methods=['GET'])
     def get_event(event_id):
@@ -255,12 +256,11 @@ def create_app(test_config=None):
         Returns:
             response: json, status code
         """
-        #TODO: Add artists and volunteers to output.
         try:
             event = Event.query.filter_by(id=event_id).one_or_none()
             response = jsonify({
-                "events": event.format(),
-                "success": True
+                'events': event.format(),
+                'success': True
             })
             return response, 200
         except Exception as e:
@@ -275,11 +275,10 @@ def create_app(test_config=None):
         Returns:
             response: json, status code
         """
-        #TODO: Add artists and volunteers to output.
         try:
             response = jsonify({
-                "events": [event.format() for event in Event.query.all()],
-                "success": True
+                'events': [event.format() for event in Event.query.all()],
+                'success': True
             })
             return response, 200
         except Exception as e:
@@ -296,17 +295,17 @@ def create_app(test_config=None):
         try:
             body = request.get_json()
             event = Event(
-                name=body.get("name"),
-                phone_number=body.get("phone_number"),
-                email=body.get("email"),
-                venue_name=body.get("venue_name"),
-                theme=body.get("theme"),
-                website=body.get("website")
+                name=body.get('name'),
+                phone_number=body.get('phone_number'),
+                email=body.get('email'),
+                venue_name=body.get('venue_name'),
+                theme=body.get('theme'),
+                website=body.get('website')
             )
             event.insert()
             return jsonify({
-                "success": True,
-                "events": event.format()
+                'success': True,
+                'events': event.format()
             }), 201
         except Exception as e:
             app.logger.error(e)
@@ -326,15 +325,15 @@ def create_app(test_config=None):
             body = request.get_json()
             event = Event.query.filter_by(id=event_id).one_or_none()
 
-            event.name = body.get("name", event.name)
-            event.phone_number = body.get("phone_number", event.phone_number)
-            event.email = body.get("email", event.email)
-            event.venue_name = body.get("event", event.venue_name)
-            event.theme = body.get("theme", event.theme)
+            event.name = body.get('name', event.name)
+            event.phone_number = body.get('phone_number', event.phone_number)
+            event.email = body.get('email', event.email)
+            event.venue_name = body.get('event', event.venue_name)
+            event.theme = body.get('theme', event.theme)
             event.update()
             return jsonify({
-                "success": True,
-                "volunteer": event.format()
+                'success': True,
+                'events': event.format()
             }), 200
         except Exception as e:
             app.logger.error(e)
@@ -352,32 +351,32 @@ def create_app(test_config=None):
             event = Event.query.filter_by(id=event_id).one_or_none()
             event.delete()
             return jsonify({
-                "success": True,
+                'success': True,
             }), 200
         except Exception as e:
             app.logger.error(e)
             abort(500)
 
 
-    '''
-    ----------Error handling
-    '''
+    #---------------------------------------
+    #           ERROR HANDLERS
+    #---------------------------------------
 
     @app.errorhandler(422)
     def unprocessable(error):
         return jsonify({
-            "success": False,
-            "error": 422,
-            "message": "unprocessable"
+            'success': False,
+            'error': 422,
+            'message': 'unprocessable'
         }), 422
 
 
     @app.errorhandler(404)
     def resource_not_found_error(error):
         response = jsonify({
-            "success": False,
-            "error": 404,
-            "message": "resource not found"
+            'success': False,
+            'error': 404,
+            'message': 'resource not found'
         })
         return response, 404
 
@@ -385,9 +384,9 @@ def create_app(test_config=None):
     @app.errorhandler(AuthError)
     def unprocessible_entity_error(error):
         response = jsonify({
-            "success": False,
-            "error": error.status_code,
-            "message": "AuthError: {}".format(error.error)
+            'success': False,
+            'error': error.status_code,
+            'message': 'AuthError: {}'.format(error.error)
         })
         return response, error.status_code
 
@@ -395,8 +394,8 @@ def create_app(test_config=None):
     @app.errorhandler(500)
     def internal_server_error(error):
         response = jsonify({
-            "success": False,
-            "message": "There was an internal service error: {}".format(error)
+            'success': False,
+            'message': 'There was an internal service error: {}'.format(error)
         })
         return response, 500
 

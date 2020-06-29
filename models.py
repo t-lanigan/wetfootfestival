@@ -4,7 +4,6 @@ import json
 import os
 
 database_path = os.environ['DATABASE_URL']
-
 db = SQLAlchemy()
 
 '''
@@ -12,7 +11,6 @@ setup_db(app)
     binds a flask application and a SQLAlchemy service
 '''
 def setup_db(app, database_path=database_path):
-    print(database_path)
     app.config["SQLALCHEMY_DATABASE_URI"] = database_path
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     db.app = app
@@ -27,13 +25,19 @@ class CommonModel(db.Model):
     name = db.Column(db.String(120), unique=True)
     phone_number = db.Column(db.String(120), unique=True)
     email = db.Column(db.String(120), unique=True)
+    
+    def insert(self):
+        db.session.add(self)
+        db.session.commit()
 
-    def format(self):
-        return {
-            'id': self.id,
-            'name': self.name,
-            'phone_number': self.phone_number,
-            'email': self.email}
+
+    def delete(self):
+        db.session.delete(self)
+        db.session.commit()
+
+
+    def update(self):
+        db.session.commit()
 
 
 class Volunteer(CommonModel):
@@ -41,8 +45,16 @@ class Volunteer(CommonModel):
 
     event = db.Column(db.Integer, db.ForeignKey('events.id'), nullable=False)
 
+    def format(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'phone_number': self.phone_number,
+            'email': self.email,
+            'event': self.event}
+
     def __repr__(self):
-        return f'<Volunteer ID: {self.id} Name: {self.name}>'
+        return json.dumps(self.format())
 
 
 class Artist(CommonModel):
@@ -50,7 +62,7 @@ class Artist(CommonModel):
 
     event = db.Column(db.Integer, db.ForeignKey('events.id'), nullable=False)
     # Arrays works for postsgres, but not everything.
-    genres = db.Column(db.ARRAY(db.String()))
+    # genres = db.Column(db.ARRAY(db.String()))
 
     website = db.Column(db.String(200))
     instagram_link = db.Column(db.String(200))
@@ -58,21 +70,42 @@ class Artist(CommonModel):
     #TODO: This will eventually need to be something that they upload.
     image_link = db.Column(db.String(500))
 
+    def format(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'phone_number': self.phone_number,
+            'email': self.email,
+            'event': self.event
+            }
+
+
     def __repr__(self):
-        return f'<Artist ID: {self.id} Name: {self.name}>'
+        return json.dumps(self.format())
+
+
 
 
 class Event(CommonModel):
     __tablename__ = 'events'
 
-    start_time = db.Column(db.DateTime, nullable=False)
-    end_time = db.Column(db.DateTime, nullable=False)
     venue_name = db.Column(db.String, nullable=False)
     artists = db.relationship('Artist', backref='artist_event', lazy=True)
     volunteers = db.relationship('Volunteer', backref='volunteer_event', lazy=True)
     theme = db.Column(db.String, nullable=False)
     website = db.Column(db.String(200))
 
+    def format(self):
+        return {
+            'id': self.id,
+            'name': self.name,
+            'phone_number': self.phone_number,
+            'email': self.email,
+            'artists': [artist.format() for artist in self.artists],
+            'volunteers': [volunteer.format() for volunteer in self.volunteers],
+            'venue_name': self.venue_name,
+            'theme': self.theme,
+            'website': self.website}
 
     def __repr__(self):
-        return f'<Event ID: {self.id} Venue Name: {self.venue_name} Start Time: {self.start_time}>'
+        return json.dumps(self.format())

@@ -7,8 +7,6 @@ event = Event(
     name='Wetfoot Festival 2019',
     phone_number='555-555-5555',
     email = 'wisehall@gmail.com',
-    start_time=datetime(2020, 4, 25, 17, 40, 19, 448277),
-    end_time=datetime(2020, 4, 26, 1, 30, 19, 448277),
     venue_name = 'The Wisehall',
     theme='Major Tom Goes to Wonderland',
     website='https://www.youtube.com/watch?v=dQw4w9WgXcQ',
@@ -24,7 +22,6 @@ artist = Artist(
     phone_number='555-555-5556',
     email = 'jbl@gmail.com',
     event =1,
-    genres=["Jazz", "Reggae", "Swing", "Classical", "Folk"],
     website='https://www.youtube.com/watch?v=dQw4w9WgXcQ',
     instagram_link='https://www.facebook.com/joeexotic',
     image_link="https://images.unsplash.com/photo-1549213783-8284d0336c4f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=300&q=80"

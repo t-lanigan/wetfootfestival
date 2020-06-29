@@ -51,7 +51,8 @@ class Volunteer(CommonModel):
             'name': self.name,
             'phone_number': self.phone_number,
             'email': self.email,
-            'event': self.event}
+            'event': self.event
+            }
 
     def __repr__(self):
         return json.dumps(self.format())

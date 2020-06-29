@@ -2,7 +2,7 @@ IGNORE := $(shell bash -c "source setup.sh; env | sed 's/=/:=/' | sed 's/^/expor
 include makeenv 
 
 DB_NAME := wetfootfestival
-TEST_DB_NAME := wetfootfestival_test
+TEST_APP_NAME := wetfootfestival_test
 
 deps:
 	pip3 install -r requirements.txt
@@ -10,8 +10,8 @@ deps:
 test:
 	@dropdb $(TEST_APP_NAME)
 	@createdb $(TEST_APP_NAME)
-	@psql $(TEST_APP_NAME) < trivia.psql
-	python test_app.py
+	@psql $(TEST_APP_NAME) < wetfootfestival_test.sql
+	python3 test_app.py
 
 run:
 	FLASK_APP=app.py FLASK_ENV=development flask run

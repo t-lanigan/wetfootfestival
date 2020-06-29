@@ -210,19 +210,20 @@ def create_app(test_config=None):
         """
         try:
             body = request.get_json()
-            artists = Artist.query.filter_by(id=artists_id).one_or_none()
+            artist = Artist.query.filter_by(id=artists_id).one_or_none()
 
-            artists.name = body.get("name", artists.name)
-            artists.phone_number = body.get("phone_number", artists.phone_number)
-            artists.email = body.get("email", artists.email)
-            artists.event = body.get("event", artists.event)
-            artists.event = body.get("website", artists.webiste)
-            artists.event = body.get("instagram_link", artists.instagram_link)
-            artists.event = body.get("image_link", artists.image_link)
-            artists.update()
+            artist.name = body.get("name", artists.name)
+            artist.phone_number = body.get("phone_number", artist.phone_number)
+            artist.email = body.get("email", artist.email)
+            artist.event = body.get("event", artist.event)
+            artist.event = body.get("website", artist.webiste)
+            artist.event = body.get("instagram_link", artist.instagram_link)
+            artist.event = body.get("image_link", artist.image_link)
+            artist.update()
+            
             return jsonify({
                 "success": True,
-                "volunteer": volunteer.format()
+                "volunteer": artist.format()
             }), 200
         except Exception as e:
             app.logger.error(e)

@@ -45,11 +45,14 @@ deploy:
 add-fake-data:
 	python3 add_fake_data.py
 
-add-volunteer:
+heroku-get-event:
+	curl https://wetfootfestival.herokuapp.com/events
+
+heroku-add-event:
 	curl --header "Content-Type: application/json" \
 	--request POST \
-	--data '{"name":"xyz","phone_number":"xyz", "email":"12345", "event":"1"}' \
-	http://localhost:5000/volunteers
+	--data '{"name":"wetfootfestival","phone_number":"555-5555", "email":"wetfoot@gmail", "venue_name":"The Wisehall", "theme": "Major Tom gets wierd", "website":"www.google.com"}' \
+	https://wetfootfestival.herokuapp.com/events
 
 patch-volunteer:
 	curl --header "Content-Type: application/json" \

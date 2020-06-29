@@ -159,6 +159,7 @@ class WetfootFestivalTestCase(unittest.TestCase):
     #---------------------------------------
     #           EVENTS TESTS
     #---------------------------------------
+
     def test_get_events(self):
         """Test GET /events."""
         response = self.client().get("/events")
@@ -207,7 +208,7 @@ class WetfootFestivalTestCase(unittest.TestCase):
 
     def test_delete_event(self):
         """Test DELETE /events"""
-        response = self.client().delete("/events/1")
+        response = self.client().delete("/events/2")
         data = json.loads(response.data.decode())
         self.assertEqual(data['success'], True)
         self.assertEqual(response.status_code, 200)
@@ -215,35 +216,28 @@ class WetfootFestivalTestCase(unittest.TestCase):
     #---------------------------------------
     #           ERROR HANDLING TESTS
     #---------------------------------------
-    
-    
-    
-    # def test_resource_not_found(self):
-    #     """Test resource not found"""
-    #     res = self.client().get("/fake-endpoint")
-    #     self.assertEqual(res.status_code, 404)
 
-    # def test_internal_service_error(self):
-    #     """Test internal_service_error, should be rare"""
-    #     response = self.client().get("/questions?page=3")
-    #     data = json.loads(response.data.decode())
-    #     self.assertEqual(data["success"], False)
-    #     self.assertEqual(response.status_code, 500)
+    def test_resource_not_found(self):
+        """Test resource not found"""
+        res = self.client().get("/fake-endpoint")
+        self.assertEqual(res.status_code, 404)
 
-    # def unprocessible_entity_error(self):
-    #     """Test unprocessible_entity_error"""
-    #     body = {
-    #         "question": "How many?",
-    #         "answer": "5",
-    #         "category": "not existant",  # needs an id, not a str.
-    #         "difficulty": 5
-    #     }
-    #     response = self.client().post("/questions",
-    #                                   content_type="application/json",
-    #                                   data=json.dumps(body))
-    #     data = json.loads(response.data.decode())
-    #     self.assertEqual(data["success"], False)
-    #     self.assertEqual(res.status_code, 422)
+    def test_internal_service_error(self):
+        """Test internal_service_error, should be rare"""
+        response = self.client().delete("/events/10")
+        data = json.loads(response.data.decode())
+        self.assertEqual(data["success"], False)
+        self.assertEqual(response.status_code, 500)
+
+    def unprocessible_entity_error(self):
+        """Test unprocessible_entity_error"""
+        body = {"thisShould": "fail"}
+        response = self.client().post("/events/10",
+                                      content_type="application/json",
+                                      data=json.dumps(body))
+        data = json.loads(response.data.decode())
+        self.assertEqual(data["success"], False)
+        self.assertEqual(res.status_code, 422)
 
 
 # Make the tests conveniently executable

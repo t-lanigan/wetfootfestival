@@ -205,12 +205,12 @@ class WetfootFestivalTestCase(unittest.TestCase):
         self.assertEqual(data['events']['name'], new_name)
         self.assertEqual(response.status_code, 200)
 
-    # def test_delete_event(self):
-    #     """Test DELETE /events"""
-    #     response = self.client().delete("/events/1")
-    #     data = json.loads(response.data.decode())
-    #     self.assertEqual(data['success'], True)
-    #     self.assertEqual(response.status_code, 200)
+    def test_delete_event(self):
+        """Test DELETE /events"""
+        response = self.client().delete("/events/1")
+        data = json.loads(response.data.decode())
+        self.assertEqual(data['success'], True)
+        self.assertEqual(response.status_code, 200)
 
     #---------------------------------------
     #           ERROR HANDLING TESTS

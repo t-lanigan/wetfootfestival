@@ -193,6 +193,7 @@ COPY public.artists (id, name, phone_number, email, event, website, instagram_li
 
 COPY public.events (id, name, phone_number, email, venue_name, theme, website) FROM stdin;
 1	Wetfoot Festival 2019	555-555-5555	wisehall@gmail.com	The Wisehall	Major Tom Goes to Wonderland	https://www.youtube.com/watch?v=dQw4w9WgXcQ
+2	Wetfoot Festival 2020	555-555-5535	wisesthall@gmail.com	The Wisesthall	Major Tom Goes Fishing	https://www.netflix.com
 \.
 
 
@@ -217,7 +218,7 @@ SELECT pg_catalog.setval('public.artists_id_seq', 2, true);
 -- Name: events_id_seq; Type: SEQUENCE SET; Schema: public; Owner: tyler
 --
 
-SELECT pg_catalog.setval('public.events_id_seq', 1, true);
+SELECT pg_catalog.setval('public.events_id_seq', 2, true);
 
 
 --

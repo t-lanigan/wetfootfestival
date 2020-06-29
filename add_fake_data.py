@@ -12,7 +12,16 @@ event = Event(
     website='https://www.youtube.com/watch?v=dQw4w9WgXcQ',
 )
 
-add_list = [event]
+event2 = Event(
+    name='Wetfoot Festival 2020',
+    phone_number='555-555-5535',
+    email = 'wisesthall@gmail.com',
+    venue_name = 'The Wisesthall',
+    theme='Major Tom Goes Fishing',
+    website='https://www.netflix.com',
+)
+
+add_list = [event, event2]
 [db.session.add(item) for item in add_list]
 db.session.commit()
 

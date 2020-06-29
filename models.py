@@ -22,9 +22,9 @@ class CommonModel(db.Model):
     __abstract__ = True
 
     id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(120), unique=True)
-    phone_number = db.Column(db.String(120), unique=True)
-    email = db.Column(db.String(120), unique=True)
+    name = db.Column(db.String(120), nullable=False)
+    phone_number = db.Column(db.String(120), unique=True, nullable=False)
+    email = db.Column(db.String(120), unique=True, nullable=False)
     
     def insert(self):
         db.session.add(self)
@@ -65,7 +65,7 @@ class Artist(CommonModel):
     # genres = db.Column(db.ARRAY(db.String()))
 
     website = db.Column(db.String(200))
-    instagram_link = db.Column(db.String(200))
+    instagram_link = db.Column(db.String(500))
 
     #TODO: This will eventually need to be something that they upload.
     image_link = db.Column(db.String(500))
@@ -76,7 +76,10 @@ class Artist(CommonModel):
             'name': self.name,
             'phone_number': self.phone_number,
             'email': self.email,
-            'event': self.event
+            'event': self.event,
+            'website': self.website,
+            'instagram_link': self.instagram_link,
+            'image_link': self.image_link
             }
 
 

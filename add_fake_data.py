@@ -32,7 +32,6 @@ artist2 = Artist(
     phone_number='555-555-5557',
     email = 'gnarfunkelband@gmail.com',
     event =1,
-    genres=["Jazz", "Reggae", "Swing", "Classical", "Folk"],
     website='https://www.youtube.com/watch?v=dQw4w9WgXcQ',
     instagram_link='https://www.facebook.com/joeexotic',
     image_link="https://images.unsplash.com/photo-1549213783-8284d0336c4f?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=300&q=80"

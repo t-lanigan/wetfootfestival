@@ -31,7 +31,7 @@ def create_app(test_config=None):
         """Gets a single volunteer
 
         Args:
-            volunteer_id ([type]): The volunteer id e.g "1"
+            volunteer_id (int): The volunteer id e.g "1"
 
         Returns:
             response: json, status code
@@ -164,7 +164,7 @@ def create_app(test_config=None):
         """
         try:
             response = jsonify({
-                "volunteer": [volunteer.format() for volunteer in Volunteer.query.all()],
+                "volunteer": [artist.format() for artist in Artist.query.all()],
                 "success": True
             })
             return response, 200
@@ -189,10 +189,10 @@ def create_app(test_config=None):
                 instagram_link=body.get("instagram_link"),
                 image_link=body.get("image_link")
             )
-            volunteer.insert()
+            artist.insert()
             return jsonify({
                 "success": True,
-                "volunteer": volunteer.format()
+                "volunteer": artist.format()
             }), 201
         except Exception as e:
             app.logger.error(e)
@@ -212,10 +212,13 @@ def create_app(test_config=None):
             body = request.get_json()
             artists = Artist.query.filter_by(id=artists_id).one_or_none()
 
-            artists.name = body.get("name", volunteer.name)
-            artists.phone_number = body.get("phone_number", volunteer.phone_number)
-            artists.email = body.get("email", volunteer.email)
-            artists.event = body.get("event", volunteer.event)
+            artists.name = body.get("name", artists.name)
+            artists.phone_number = body.get("phone_number", artists.phone_number)
+            artists.email = body.get("email", artists.email)
+            artists.event = body.get("event", artists.event)
+            artists.event = body.get("website", artists.webiste)
+            artists.event = body.get("instagram_link", artists.instagram_link)
+            artists.event = body.get("image_link", artists.image_link)
             artists.update()
             return jsonify({
                 "success": True,

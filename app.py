@@ -31,7 +31,7 @@ def create_app(test_config=None):
             response: json, status code
         """
         response = jsonify({
-            'greeting': "hello there!"
+            'Hello!': "A webpage will be up soon :)"
         })
         return response, 200
 
@@ -94,7 +94,8 @@ def create_app(test_config=None):
             abort(500)
 
     @app.route('/volunteers', methods=['POST'])
-    def create_volunteer():
+    @requires_auth('affect:volunteers')
+    def create_volunteer(*args, **kwargs):
         """Creates a Volunteer.
 
         Returns:
@@ -118,7 +119,8 @@ def create_app(test_config=None):
             abort(422)
 
     @app.route('/volunteers/<int:volunteer_id>', methods=['PATCH'])
-    def update_volunteer(volunteer_id):
+    @requires_auth('affect:volunteers')
+    def update_volunteer(*args, **kwargs):
         """Updates a volunteer
 
         Args:
@@ -128,6 +130,7 @@ def create_app(test_config=None):
             response: json, status_code
         """
         try:
+            volunteer_id = kwargs.get("volunteer_id")
             body = request.get_json()
             volunteer = Volunteer.query.filter_by(id=volunteer_id).one_or_none()
 
@@ -145,9 +148,16 @@ def create_app(test_config=None):
             abort(422)
 
     @app.route('/volunteers/<int:volunteer_id>', methods=['DELETE'])
-    def delete_volunteer(volunteer_id):
+    @requires_auth('affect:volunteers')
+    def delete_volunteer(*args, **kwargs):
         try:
+            volunteer_id = kwargs.get("volunteer_id")
             volunteer = Volunteer.query.filter_by(id=volunteer_id).one_or_none()
+            if not volunteer:
+                return jsonify({
+                "success": True,
+                "message": "Volunteer id: {} not found".format(volunteer_id)
+                }), 404
             volunteer.delete()
             return jsonify({
                 'success': True,
@@ -201,7 +211,8 @@ def create_app(test_config=None):
             abort(500)
 
     @app.route('/artists', methods=['POST'])
-    def create_artist():
+    @requires_auth('affect:artists')
+    def create_artist(*args, **kwargs):
         """Creates a Artist.
 
         Returns:
@@ -228,7 +239,8 @@ def create_app(test_config=None):
             abort(422)
 
     @app.route('/artists/<int:artist_id>', methods=['PATCH'])
-    def update_artist(artist_id):
+    @requires_auth('affect:artists')
+    def update_artist(*args, **kwargs):
         """Updates a artists
 
         Args:
@@ -238,6 +250,7 @@ def create_app(test_config=None):
             response: json, status_code
         """
         try:
+            artist_id = kwargs.get("artist_id")
             body = request.get_json()
             artist = Artist.query.filter_by(id=artist_id).one_or_none()
 
@@ -259,10 +272,17 @@ def create_app(test_config=None):
             abort(422)
 
     @app.route('/artists/<int:artist_id>', methods=['DELETE'])
-    def delete_artists(artist_id):
+    @requires_auth('affect:artists')
+    def delete_artists(*args, **kwargs):
         try:
-            artists = Artist.query.filter_by(id=artist_id).one_or_none()
-            artists.delete()
+            artist_id = kwargs.get("artist_id")
+            artist = Artist.query.filter_by(id=artist_id).one_or_none()
+            if not artist:
+                return jsonify({
+                "success": True,
+                "message": "Artist id: {} not found".format(artist_id)
+                }), 404
+            artist.delete()
             return jsonify({
                 'success': True,
             }), 200
@@ -275,7 +295,7 @@ def create_app(test_config=None):
     #---------------------------------------
 
     @app.route('/events/<int:event_id>', methods=['GET'])
-    def get_event(event_id):
+    def get_event(*args, **kwargs):
         """Gets a single event
 
         Args:
@@ -285,6 +305,7 @@ def create_app(test_config=None):
             response: json, status code
         """
         try:
+            event_id = kwargs.get("event_id")
             event = Event.query.filter_by(id=event_id).one_or_none()
             response = jsonify({
                 'events': event.format(),
@@ -314,7 +335,8 @@ def create_app(test_config=None):
             abort(500)
 
     @app.route('/events', methods=['POST'])
-    def create_event():
+    @requires_auth('affect:events')
+    def create_event(*args, **kwargs):
         """Creates a Event.
 
         Returns:
@@ -340,7 +362,8 @@ def create_app(test_config=None):
             abort(422)
 
     @app.route('/events/<int:event_id>', methods=['PATCH'])
-    def update_event(event_id):
+    @requires_auth('affect:events')
+    def update_event(*args, **kwargs):
         """Updates an event
 
         Args:
@@ -350,6 +373,7 @@ def create_app(test_config=None):
             response: json, status_code
         """
         try:
+            event_id = kwargs.get("event_id")
             body = request.get_json()
             event = Event.query.filter_by(id=event_id).one_or_none()
 
@@ -368,7 +392,8 @@ def create_app(test_config=None):
             abort(422)
 
     @app.route('/events/<int:event_id>', methods=['DELETE'])
-    def delete_event(event_id):
+    @requires_auth('affect:events')
+    def delete_event(*args, **kwargs):
         """Deletes an event
 
         Returns:
@@ -376,7 +401,13 @@ def create_app(test_config=None):
         """
         #TODO: How to handle the artist and volunteer entries?
         try:
+            event_id = kwargs.get("event_id")
             event = Event.query.filter_by(id=event_id).one_or_none()
+            if not event:
+                return jsonify({
+                "success": True,
+                "message": "Event id: {} not found".format(event_id)
+                }), 404
             event.delete()
             return jsonify({
                 'success': True,

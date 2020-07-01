@@ -23,8 +23,7 @@ def create_app(test_config=None):
 
         return response, 200
 
-        @app.route('/login-results', methods=['GET'])
-        
+    @app.route('/login-results', methods=['GET'])
     def login_results():
         """Gets all of the volunteers in the database
 

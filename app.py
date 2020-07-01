@@ -1,5 +1,5 @@
 import os
-from flask import Flask, request, jsonify, abort
+from flask import Flask, request, jsonify, abort, redirect
 from models import setup_db, Volunteer, Artist, Event
 from flask_cors import CORS
 from auth.auth import AuthError, requires_auth
@@ -25,7 +25,7 @@ def create_app(test_config=None):
 
     @app.route('/login-results', methods=['GET'])
     def login_results():
-        """Gets all of the volunteers in the database
+        """The result of the login
 
         Returns:
             response: json, status code
@@ -34,6 +34,21 @@ def create_app(test_config=None):
             'greeting': "hello there!"
         })
         return response, 200
+
+    @app.route('/login', methods=['GET'])
+    def login():
+        """The login
+
+        Returns:
+            response: json, status code
+        """
+        domain = "tylers-test.auth0.com"
+        audience = "wetfootfestival"
+        client_id = "LFlinn4YCy2LNnJdzw6c0k2uOwl59nKH"
+        redirect_uri = "https://wetfootfestival.herokuapp.com/login-results"
+        auth0_login = f"https://{domain}/authorize?audience={audience}}&response_type=token&client_id={client_id}&redirect_uri={redirect_uri}"
+        print(auth0_login)
+        return redirect(auth0_login)
 
 
     #---------------------------------------

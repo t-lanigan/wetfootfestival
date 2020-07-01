@@ -3,6 +3,8 @@ from flask import Flask, request, jsonify, abort, redirect
 from models import setup_db, Volunteer, Artist, Event
 from flask_cors import CORS
 from auth.auth import AuthError, requires_auth
+import os
+
 
 def create_app(test_config=None):
 
@@ -17,6 +19,7 @@ def create_app(test_config=None):
         Returns:
             response, code -- the response and code
         """
+        print(os.environ)
         response = jsonify({
             'success': True,
         })

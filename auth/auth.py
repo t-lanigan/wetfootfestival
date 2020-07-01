@@ -105,9 +105,14 @@ def verify_decode_jwt(token):
         AuthError: [if it unable to parse the token
         AuthError: if it's unable to find appropriate key
     """
+    # GET THE PUBLIC KEY FROM AUTH0
     jsonurl = urlopen(f'https://{AUTH0_DOMAIN}/.well-known/jwks.json')
     jwks = json.loads(jsonurl.read())
+    print(jwks)
+    # GET THE DATA IN THE HEADER
     unverified_header = jwt.get_unverified_header(token)
+    print(unverified_header)
+    # CHOOSE OUR KEY
     rsa_key = {}
     if 'kid' not in unverified_header:
         raise AuthError({

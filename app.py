@@ -46,7 +46,7 @@ def create_app(test_config=None):
         audience = "wetfootfestival"
         client_id = "LFlinn4YCy2LNnJdzw6c0k2uOwl59nKH"
         redirect_uri = "https://wetfootfestival.herokuapp.com/login-results"
-        auth0_login = f"https://{domain}/authorize?audience={audience}}&response_type=token&client_id={client_id}&redirect_uri={redirect_uri}"
+        auth0_login = f"https://{domain}/authorize?audience={audience}&response_type=token&client_id={client_id}&redirect_uri={redirect_uri}"
         print(auth0_login)
         return redirect(auth0_login)
 

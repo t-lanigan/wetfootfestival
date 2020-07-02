@@ -19,7 +19,6 @@ def create_app(test_config=None):
         Returns:
             response, code -- the response and code
         """
-        print(os.environ)
         response = jsonify({
             'success': True,
         })
@@ -406,11 +405,6 @@ def create_app(test_config=None):
         try:
             event_id = kwargs.get("event_id")
             event = Event.query.filter_by(id=event_id).one_or_none()
-            if not event:
-                return jsonify({
-                "success": True,
-                "message": "Event id: {} not found".format(event_id)
-                }), 404
             event.delete()
             return jsonify({
                 'success': True,

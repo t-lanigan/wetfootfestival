@@ -5,7 +5,11 @@ from flask_sqlalchemy import SQLAlchemy
 
 from app import create_app
 from models import setup_db, Volunteer, Artist, Event
+import os
 
+ADMIN_TOKEN = os.environ['ADMIN_TOKEN']
+ARTIST_TOKEN = os.environ['ARTIST_TOKEN']
+VOLUNTEER_TOKEN = os.environ['VOLUNTEER_TOKEN']
 
 class WetfootFestivalTestCase(unittest.TestCase):
     """This class represents the trivia test case"""
@@ -17,6 +21,33 @@ class WetfootFestivalTestCase(unittest.TestCase):
         self.database_name = 'wetfootfestival_test'
         self.database_path = 'postgresql://{}/{}'.format(
             'localhost:5432', self.database_name)
+        self.new_event = {
+            'name': 'The MostWetFootFestival',
+            'phone_number': '778-777-5535',
+            'email': 'wise@gmail.com',
+            'website': 'www.google.com',
+            'venue_name': 'The wisest Hall',
+            'theme': 'Get schwifty!'
+            }
+        self.new_volunteer = {
+            'name': 'Maia',
+            'phone_number': '778-777-5555',
+            'email': 'maia@gmail.com',
+            'event': 1
+            }
+
+        self.new_artist = {
+            'name': 'Maia',
+            'phone_number': '778-777-5555',
+            'email': 'maia@gmail.com',
+            'event': 1,
+            'website': 'www.google.com',
+            'instagram_link': 'www.instagram.com',
+            'image_link': 'www.fakelink.com'
+            }
+
+        self.auth_header_admin = {"Authorization": "Bearer {}".format(ADMIN_TOKEN)}
+        self.auth_header_admin_bad = {"Authorization": "{}".format(ADMIN_TOKEN)}
         setup_db(self.app, self.database_path)
 
         # binds the app to the current context
@@ -38,9 +69,9 @@ class WetfootFestivalTestCase(unittest.TestCase):
         self.assertEqual(response.status_code, 200)
 
     
-    #---------------------------------------
-    #           VOLUNTEER TESTS
-    #---------------------------------------
+    # #---------------------------------------
+    # #           VOLUNTEER TESTS
+    # #---------------------------------------
 
     def test_get_volunteers(self):
         """Test GET /volunteers."""
@@ -59,15 +90,10 @@ class WetfootFestivalTestCase(unittest.TestCase):
 
     def test_post_volunteer(self):
         """Test POST /volunteers"""
-        body = {
-            'name': 'Maia',
-            'phone_number': '778-777-5555',
-            'email': 'maia@gmail.com',
-            'event': 1
-            }
         response = self.client().post("/volunteers",
                                       content_type="application/json",
-                                      data=json.dumps(body))
+                                      headers=self.auth_header_admin,
+                                      data=json.dumps(self.new_volunteer))
         data = json.loads(response.data.decode())
         self.assertEqual(data["success"], True)
         self.assertEqual(response.status_code, 201)
@@ -82,6 +108,7 @@ class WetfootFestivalTestCase(unittest.TestCase):
             }
         response = self.client().patch('/volunteers/2',
                                       content_type='application/json',
+                                      headers=self.auth_header_admin,
                                       data=json.dumps(body))
         data = json.loads(response.data.decode())
         self.assertEqual(data['success'], True)
@@ -91,15 +118,15 @@ class WetfootFestivalTestCase(unittest.TestCase):
 
     def test_delete_volunteer(self):
         """Test DELETE /volunteers"""
-        response = self.client().delete("/volunteers/1")
+        response = self.client().delete("/volunteers/1", headers=self.auth_header_admin)
         data = json.loads(response.data.decode())
         self.assertEqual(data['success'], True)
         self.assertEqual(response.status_code, 200)
 
     
-    #---------------------------------------
-    #           ARTIST TESTS
-    #---------------------------------------
+    # #---------------------------------------
+    # #           ARTIST TESTS
+    # #---------------------------------------
     
     def test_get_artists(self):
         """Test GET /artists."""
@@ -118,18 +145,10 @@ class WetfootFestivalTestCase(unittest.TestCase):
 
     def test_post_artist(self):
         """Test POST /artists"""
-        body = {
-            'name': 'Maia',
-            'phone_number': '778-777-5555',
-            'email': 'maia@gmail.com',
-            'event': 1,
-            'website': 'www.google.com',
-            'instagram_link': 'www.instagram.com',
-            'image_link': 'www.fakelink.com'
-            }
         response = self.client().post('/artists',
                                       content_type='application/json',
-                                      data=json.dumps(body))
+                                      headers=self.auth_header_admin,
+                                      data=json.dumps(self.new_artist))
         data = json.loads(response.data.decode())
         self.assertEqual(data['success'], True)
         self.assertEqual(response.status_code, 201)
@@ -142,6 +161,7 @@ class WetfootFestivalTestCase(unittest.TestCase):
             }
         response = self.client().patch('/artists/2',
                                       content_type='application/json',
+                                      headers=self.auth_header_admin,
                                       data=json.dumps(body))
         data = json.loads(response.data.decode())
         self.assertEqual(data['success'], True)
@@ -150,15 +170,15 @@ class WetfootFestivalTestCase(unittest.TestCase):
 
     def test_delete_artist(self):
         """Test DELETE /artists"""
-        response = self.client().delete("/artists/1")
+        response = self.client().delete("/artists/1", headers=self.auth_header_admin)
         data = json.loads(response.data.decode())
         self.assertEqual(data['success'], True)
         self.assertEqual(response.status_code, 200)
 
 
-    #---------------------------------------
-    #           EVENTS TESTS
-    #---------------------------------------
+    # #---------------------------------------
+    # #           EVENTS TESTS
+    # #---------------------------------------
 
     def test_get_events(self):
         """Test GET /events."""
@@ -177,17 +197,10 @@ class WetfootFestivalTestCase(unittest.TestCase):
 
     def test_post_event(self):
         """Test POST /events"""
-        body = {
-            'name': 'The MostWetFootFestival',
-            'phone_number': '778-777-5535',
-            'email': 'wise@gmail.com',
-            'website': 'www.google.com',
-            'venue_name': 'The wisest Hall',
-            'theme': 'Get schwifty!'
-            }
         response = self.client().post('/events',
                                       content_type='application/json',
-                                      data=json.dumps(body))
+                                      headers=self.auth_header_admin,
+                                      data=json.dumps(self.new_event))
         data = json.loads(response.data.decode())
         self.assertEqual(data['success'], True)
         self.assertEqual(response.status_code, 201)
@@ -200,6 +213,7 @@ class WetfootFestivalTestCase(unittest.TestCase):
             }
         response = self.client().patch('/events/1',
                                       content_type='application/json',
+                                      headers=self.auth_header_admin,
                                       data=json.dumps(body))
         data = json.loads(response.data.decode())
         self.assertEqual(data['success'], True)
@@ -208,7 +222,7 @@ class WetfootFestivalTestCase(unittest.TestCase):
 
     def test_delete_event(self):
         """Test DELETE /events"""
-        response = self.client().delete("/events/2")
+        response = self.client().delete("/events/2", headers=self.auth_header_admin)
         data = json.loads(response.data.decode())
         self.assertEqual(data['success'], True)
         self.assertEqual(response.status_code, 200)
@@ -224,7 +238,7 @@ class WetfootFestivalTestCase(unittest.TestCase):
 
     def test_internal_service_error(self):
         """Test internal_service_error, should be rare"""
-        response = self.client().delete("/events/10")
+        response = self.client().delete("/events/10", headers=self.auth_header_admin)
         data = json.loads(response.data.decode())
         self.assertEqual(data["success"], False)
         self.assertEqual(response.status_code, 500)
@@ -234,10 +248,41 @@ class WetfootFestivalTestCase(unittest.TestCase):
         body = {"thisShould": "fail"}
         response = self.client().post("/events/10",
                                       content_type="application/json",
+                                      headers=self.auth_header_admin,
                                       data=json.dumps(body))
         data = json.loads(response.data.decode())
         self.assertEqual(data["success"], False)
         self.assertEqual(res.status_code, 422)
+
+    #---------------------------------------
+    #           RBAC TESTS
+    #---------------------------------------
+
+    def test_add_artist_admin(self):
+        res = self.client().post('/artists',
+        headers=self.auth_header_admin_bad,
+        json=self.new_artist)
+        data = json.loads(res.data)
+        self.assertEqual(res.status_code, 401)
+
+    def test_add_event_admin(self):
+        res = self.client().post('/events',
+        headers=self.auth_header_admin_bad,
+        json=self.new_event)
+        data = json.loads(res.data)
+        self.assertEqual(res.status_code, 401)
+
+    # def test_create_new_movies_executive_producer(self):
+    #     res = self.client().post('/movies', headers={"Authorization": "Bearer {}".format(self.executive_producer)}, json=self.movies)
+    #     data = json.loads(res.data)
+    #     self.assertEqual(res.status_code, 200)
+    #     self.assertEqual(data['success'], True)
+
+    # def test_create_new_movies_casting_assistant(self):
+    #     res = self.client().post('/movies', headers={"Authorization": "Bearer {}".format(self.casting_assistant)}, json=self.movies)
+    #     data = json.loads(res.data)
+    #     self.assertEqual(res.status_code, 401)
+    #     self.assertEqual(data['message'], {'code': 'unauthorized', 'description':'Permission not found.'})
 
 
 # Make the tests conveniently executable

@@ -108,10 +108,8 @@ def verify_decode_jwt(token):
     # GET THE PUBLIC KEY FROM AUTH0
     jsonurl = urlopen(f'https://{AUTH0_DOMAIN}/.well-known/jwks.json')
     jwks = json.loads(jsonurl.read())
-    print(jwks)
     # GET THE DATA IN THE HEADER
     unverified_header = jwt.get_unverified_header(token)
-    print(unverified_header)
     # CHOOSE OUR KEY
     rsa_key = {}
     if 'kid' not in unverified_header:

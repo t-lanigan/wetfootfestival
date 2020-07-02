@@ -14,7 +14,7 @@ def create_app(test_config=None):
 
     @app.route('/status/am-i-up', methods=['GET'])
     def am_i_up():
-        """Check to see if the app is running
+        """Check to see if the app is running.
 
         Returns:
             response, code -- the response and code

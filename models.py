@@ -3,14 +3,14 @@ from flask_sqlalchemy import SQLAlchemy
 import json
 import os
 
-database_path = os.environ['DATABASE_URL']
 db = SQLAlchemy()
 
 '''
 setup_db(app)
     binds a flask application and a SQLAlchemy service
 '''
-def setup_db(app, database_path=database_path):
+def setup_db(app, database_path=os.environ['DATABASE_URL']):
+
     app.config["SQLALCHEMY_DATABASE_URI"] = database_path
     app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
     db.app = app
@@ -25,16 +25,14 @@ class CommonModel(db.Model):
     name = db.Column(db.String(120), nullable=False)
     phone_number = db.Column(db.String(120), unique=True, nullable=False)
     email = db.Column(db.String(120), unique=True, nullable=False)
-    
+
     def insert(self):
         db.session.add(self)
         db.session.commit()
 
-
     def delete(self):
         db.session.delete(self)
         db.session.commit()
-
 
     def update(self):
         db.session.commit()
@@ -52,7 +50,7 @@ class Volunteer(CommonModel):
             'phone_number': self.phone_number,
             'email': self.email,
             'event': self.event
-            }
+        }
 
     def __repr__(self):
         return json.dumps(self.format())
@@ -68,7 +66,7 @@ class Artist(CommonModel):
     website = db.Column(db.String(200))
     instagram_link = db.Column(db.String(500))
 
-    #TODO: This will eventually need to be something that they upload.
+    # TODO: This will eventually need to be something that they upload.
     image_link = db.Column(db.String(500))
 
     def format(self):
@@ -81,13 +79,10 @@ class Artist(CommonModel):
             'website': self.website,
             'instagram_link': self.instagram_link,
             'image_link': self.image_link
-            }
-
+        }
 
     def __repr__(self):
         return json.dumps(self.format())
-
-
 
 
 class Event(CommonModel):
@@ -95,7 +90,8 @@ class Event(CommonModel):
 
     venue_name = db.Column(db.String, nullable=False)
     artists = db.relationship('Artist', backref='artist_event', lazy=True)
-    volunteers = db.relationship('Volunteer', backref='volunteer_event', lazy=True)
+    volunteers = db.relationship(
+        'Volunteer', backref='volunteer_event', lazy=True)
     theme = db.Column(db.String, nullable=False)
     website = db.Column(db.String(200))
 

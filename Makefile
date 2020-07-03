@@ -2,15 +2,16 @@ IGNORE := $(shell bash -c "source setup.sh; env | sed 's/=/:=/' | sed 's/^/expor
 include makeenv 
 
 DB_NAME := wetfootfestival
-TEST_APP_NAME := wetfootfestival_test
 
 deps:
 	pip3 install -r requirements.txt
+	pg_ctl -D /usr/local/var/postgres start
+	@createdb $(DB_NAME)
 
 test:
-	@dropdb $(TEST_APP_NAME)
-	@createdb $(TEST_APP_NAME)
-	@psql $(TEST_APP_NAME) < wetfootfestival_test.sql
+	@dropdb $(DB_NAME)
+	@createdb $(DB_NAME)
+	@psql $(DB_NAME) < wetfootfestival_test.sql
 	python3 test_app.py
 
 run:

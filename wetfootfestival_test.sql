@@ -21,7 +21,7 @@ SET default_tablespace = '';
 SET default_table_access_method = heap;
 
 --
--- Name: alembic_version; Type: TABLE; Schema: public; Owner: tyler
+-- Name: alembic_version; Type: TABLE; Schema: public; Owner:
 --
 
 CREATE TABLE public.alembic_version (
@@ -29,10 +29,9 @@ CREATE TABLE public.alembic_version (
 );
 
 
-ALTER TABLE public.alembic_version OWNER TO tyler;
 
 --
--- Name: artists; Type: TABLE; Schema: public; Owner: tyler
+-- Name: artists; Type: TABLE; Schema: public; Owner:
 --
 
 CREATE TABLE public.artists (
@@ -47,10 +46,10 @@ CREATE TABLE public.artists (
 );
 
 
-ALTER TABLE public.artists OWNER TO tyler;
+
 
 --
--- Name: artists_id_seq; Type: SEQUENCE; Schema: public; Owner: tyler
+-- Name: artists_id_seq; Type: SEQUENCE; Schema: public; Owner:
 --
 
 CREATE SEQUENCE public.artists_id_seq
@@ -62,17 +61,17 @@ CREATE SEQUENCE public.artists_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.artists_id_seq OWNER TO tyler;
+
 
 --
--- Name: artists_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: tyler
+-- Name: artists_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner:
 --
 
 ALTER SEQUENCE public.artists_id_seq OWNED BY public.artists.id;
 
 
 --
--- Name: events; Type: TABLE; Schema: public; Owner: tyler
+-- Name: events; Type: TABLE; Schema: public; Owner:
 --
 
 CREATE TABLE public.events (
@@ -86,10 +85,10 @@ CREATE TABLE public.events (
 );
 
 
-ALTER TABLE public.events OWNER TO tyler;
+
 
 --
--- Name: events_id_seq; Type: SEQUENCE; Schema: public; Owner: tyler
+-- Name: events_id_seq; Type: SEQUENCE; Schema: public; Owner:
 --
 
 CREATE SEQUENCE public.events_id_seq
@@ -101,17 +100,16 @@ CREATE SEQUENCE public.events_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.events_id_seq OWNER TO tyler;
 
 --
--- Name: events_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: tyler
+-- Name: events_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner:
 --
 
 ALTER SEQUENCE public.events_id_seq OWNED BY public.events.id;
 
 
 --
--- Name: volunteers; Type: TABLE; Schema: public; Owner: tyler
+-- Name: volunteers; Type: TABLE; Schema: public; Owner:
 --
 
 CREATE TABLE public.volunteers (
@@ -123,10 +121,9 @@ CREATE TABLE public.volunteers (
 );
 
 
-ALTER TABLE public.volunteers OWNER TO tyler;
 
 --
--- Name: volunteers_id_seq; Type: SEQUENCE; Schema: public; Owner: tyler
+-- Name: volunteers_id_seq; Type: SEQUENCE; Schema: public; Owner:
 --
 
 CREATE SEQUENCE public.volunteers_id_seq
@@ -138,38 +135,36 @@ CREATE SEQUENCE public.volunteers_id_seq
     CACHE 1;
 
 
-ALTER TABLE public.volunteers_id_seq OWNER TO tyler;
-
 --
--- Name: volunteers_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: tyler
+-- Name: volunteers_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner:
 --
 
 ALTER SEQUENCE public.volunteers_id_seq OWNED BY public.volunteers.id;
 
 
 --
--- Name: artists id; Type: DEFAULT; Schema: public; Owner: tyler
+-- Name: artists id; Type: DEFAULT; Schema: public; Owner:
 --
 
 ALTER TABLE ONLY public.artists ALTER COLUMN id SET DEFAULT nextval('public.artists_id_seq'::regclass);
 
 
 --
--- Name: events id; Type: DEFAULT; Schema: public; Owner: tyler
+-- Name: events id; Type: DEFAULT; Schema: public; Owner:
 --
 
 ALTER TABLE ONLY public.events ALTER COLUMN id SET DEFAULT nextval('public.events_id_seq'::regclass);
 
 
 --
--- Name: volunteers id; Type: DEFAULT; Schema: public; Owner: tyler
+-- Name: volunteers id; Type: DEFAULT; Schema: public; Owner:
 --
 
 ALTER TABLE ONLY public.volunteers ALTER COLUMN id SET DEFAULT nextval('public.volunteers_id_seq'::regclass);
 
 
 --
--- Data for Name: alembic_version; Type: TABLE DATA; Schema: public; Owner: tyler
+-- Data for Name: alembic_version; Type: TABLE DATA; Schema: public; Owner:
 --
 
 COPY public.alembic_version (version_num) FROM stdin;
@@ -178,7 +173,7 @@ f5a2cc9f4196
 
 
 --
--- Data for Name: artists; Type: TABLE DATA; Schema: public; Owner: tyler
+-- Data for Name: artists; Type: TABLE DATA; Schema: public; Owner:
 --
 
 COPY public.artists (id, name, phone_number, email, event, website, instagram_link, image_link) FROM stdin;
@@ -188,7 +183,7 @@ COPY public.artists (id, name, phone_number, email, event, website, instagram_li
 
 
 --
--- Data for Name: events; Type: TABLE DATA; Schema: public; Owner: tyler
+-- Data for Name: events; Type: TABLE DATA; Schema: public; Owner:
 --
 
 COPY public.events (id, name, phone_number, email, venue_name, theme, website) FROM stdin;
@@ -198,7 +193,7 @@ COPY public.events (id, name, phone_number, email, venue_name, theme, website) F
 
 
 --
--- Data for Name: volunteers; Type: TABLE DATA; Schema: public; Owner: tyler
+-- Data for Name: volunteers; Type: TABLE DATA; Schema: public; Owner:
 --
 
 COPY public.volunteers (id, name, phone_number, email, event) FROM stdin;
@@ -208,28 +203,28 @@ COPY public.volunteers (id, name, phone_number, email, event) FROM stdin;
 
 
 --
--- Name: artists_id_seq; Type: SEQUENCE SET; Schema: public; Owner: tyler
+-- Name: artists_id_seq; Type: SEQUENCE SET; Schema: public; Owner:
 --
 
 SELECT pg_catalog.setval('public.artists_id_seq', 2, true);
 
 
 --
--- Name: events_id_seq; Type: SEQUENCE SET; Schema: public; Owner: tyler
+-- Name: events_id_seq; Type: SEQUENCE SET; Schema: public; Owner:
 --
 
 SELECT pg_catalog.setval('public.events_id_seq', 2, true);
 
 
 --
--- Name: volunteers_id_seq; Type: SEQUENCE SET; Schema: public; Owner: tyler
+-- Name: volunteers_id_seq; Type: SEQUENCE SET; Schema: public; Owner:
 --
 
 SELECT pg_catalog.setval('public.volunteers_id_seq', 2, true);
 
 
 --
--- Name: alembic_version alembic_version_pkc; Type: CONSTRAINT; Schema: public; Owner: tyler
+-- Name: alembic_version alembic_version_pkc; Type: CONSTRAINT; Schema: public; Owner:
 --
 
 ALTER TABLE ONLY public.alembic_version
@@ -237,7 +232,7 @@ ALTER TABLE ONLY public.alembic_version
 
 
 --
--- Name: artists artists_email_key; Type: CONSTRAINT; Schema: public; Owner: tyler
+-- Name: artists artists_email_key; Type: CONSTRAINT; Schema: public; Owner:
 --
 
 ALTER TABLE ONLY public.artists
@@ -245,7 +240,7 @@ ALTER TABLE ONLY public.artists
 
 
 --
--- Name: artists artists_phone_number_key; Type: CONSTRAINT; Schema: public; Owner: tyler
+-- Name: artists artists_phone_number_key; Type: CONSTRAINT; Schema: public; Owner:
 --
 
 ALTER TABLE ONLY public.artists
@@ -253,7 +248,7 @@ ALTER TABLE ONLY public.artists
 
 
 --
--- Name: artists artists_pkey; Type: CONSTRAINT; Schema: public; Owner: tyler
+-- Name: artists artists_pkey; Type: CONSTRAINT; Schema: public; Owner:
 --
 
 ALTER TABLE ONLY public.artists
@@ -261,7 +256,7 @@ ALTER TABLE ONLY public.artists
 
 
 --
--- Name: events events_email_key; Type: CONSTRAINT; Schema: public; Owner: tyler
+-- Name: events events_email_key; Type: CONSTRAINT; Schema: public; Owner:
 --
 
 ALTER TABLE ONLY public.events
@@ -269,7 +264,7 @@ ALTER TABLE ONLY public.events
 
 
 --
--- Name: events events_phone_number_key; Type: CONSTRAINT; Schema: public; Owner: tyler
+-- Name: events events_phone_number_key; Type: CONSTRAINT; Schema: public; Owner:
 --
 
 ALTER TABLE ONLY public.events
@@ -277,7 +272,7 @@ ALTER TABLE ONLY public.events
 
 
 --
--- Name: events events_pkey; Type: CONSTRAINT; Schema: public; Owner: tyler
+-- Name: events events_pkey; Type: CONSTRAINT; Schema: public; Owner:
 --
 
 ALTER TABLE ONLY public.events
@@ -285,7 +280,7 @@ ALTER TABLE ONLY public.events
 
 
 --
--- Name: volunteers volunteers_email_key; Type: CONSTRAINT; Schema: public; Owner: tyler
+-- Name: volunteers volunteers_email_key; Type: CONSTRAINT; Schema: public; Owner:
 --
 
 ALTER TABLE ONLY public.volunteers
@@ -293,7 +288,7 @@ ALTER TABLE ONLY public.volunteers
 
 
 --
--- Name: volunteers volunteers_phone_number_key; Type: CONSTRAINT; Schema: public; Owner: tyler
+-- Name: volunteers volunteers_phone_number_key; Type: CONSTRAINT; Schema: public; Owner:
 --
 
 ALTER TABLE ONLY public.volunteers
@@ -301,7 +296,7 @@ ALTER TABLE ONLY public.volunteers
 
 
 --
--- Name: volunteers volunteers_pkey; Type: CONSTRAINT; Schema: public; Owner: tyler
+-- Name: volunteers volunteers_pkey; Type: CONSTRAINT; Schema: public; Owner:
 --
 
 ALTER TABLE ONLY public.volunteers
@@ -309,7 +304,7 @@ ALTER TABLE ONLY public.volunteers
 
 
 --
--- Name: artists artists_event_fkey; Type: FK CONSTRAINT; Schema: public; Owner: tyler
+-- Name: artists artists_event_fkey; Type: FK CONSTRAINT; Schema: public; Owner:
 --
 
 ALTER TABLE ONLY public.artists
@@ -317,7 +312,7 @@ ALTER TABLE ONLY public.artists
 
 
 --
--- Name: volunteers volunteers_event_fkey; Type: FK CONSTRAINT; Schema: public; Owner: tyler
+-- Name: volunteers volunteers_event_fkey; Type: FK CONSTRAINT; Schema: public; Owner:
 --
 
 ALTER TABLE ONLY public.volunteers

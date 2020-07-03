@@ -11,6 +11,7 @@ ADMIN_TOKEN = os.environ['ADMIN_TOKEN']
 ARTIST_TOKEN = os.environ['ARTIST_TOKEN']
 VOLUNTEER_TOKEN = os.environ['VOLUNTEER_TOKEN']
 
+
 class WetfootFestivalTestCase(unittest.TestCase):
     """This class represents the trivia test case"""
 
@@ -18,7 +19,7 @@ class WetfootFestivalTestCase(unittest.TestCase):
         """Define test variables and initialize app."""
         self.app = create_app()
         self.client = self.app.test_client
-        self.database_name = 'wetfootfestival_test'
+        self.database_name = 'wetfootfestival'
         self.database_path = 'postgresql://{}/{}'.format(
             'localhost:5432', self.database_name)
         self.new_event = {
@@ -28,13 +29,13 @@ class WetfootFestivalTestCase(unittest.TestCase):
             'website': 'www.google.com',
             'venue_name': 'The wisest Hall',
             'theme': 'Get schwifty!'
-            }
+        }
         self.new_volunteer = {
             'name': 'Maia',
             'phone_number': '778-777-5555',
             'email': 'maia@gmail.com',
             'event': 1
-            }
+        }
 
         self.new_artist = {
             'name': 'Maia',
@@ -44,10 +45,12 @@ class WetfootFestivalTestCase(unittest.TestCase):
             'website': 'www.google.com',
             'instagram_link': 'www.instagram.com',
             'image_link': 'www.fakelink.com'
-            }
+        }
 
-        self.auth_header_admin = {"Authorization": "Bearer {}".format(ADMIN_TOKEN)}
-        self.auth_header_admin_bad = {"Authorization": "{}".format(ADMIN_TOKEN)}
+        self.auth_header_admin = {
+            "Authorization": "Bearer {}".format(ADMIN_TOKEN)}
+        self.auth_header_admin_bad = {
+            "Authorization": "{}".format(ADMIN_TOKEN)}
         setup_db(self.app, self.database_path)
 
         # binds the app to the current context
@@ -68,7 +71,6 @@ class WetfootFestivalTestCase(unittest.TestCase):
         self.assertEqual(data['success'], True)
         self.assertEqual(response.status_code, 200)
 
-    
     # #---------------------------------------
     # #           VOLUNTEER TESTS
     # #---------------------------------------
@@ -105,11 +107,11 @@ class WetfootFestivalTestCase(unittest.TestCase):
         body = {
             'name': new_name,
             'phone_number': new_phone,
-            }
+        }
         response = self.client().patch('/volunteers/2',
-                                      content_type='application/json',
-                                      headers=self.auth_header_admin,
-                                      data=json.dumps(body))
+                                       content_type='application/json',
+                                       headers=self.auth_header_admin,
+                                       data=json.dumps(body))
         data = json.loads(response.data.decode())
         self.assertEqual(data['success'], True)
         self.assertEqual(data['volunteers']['name'], new_name)
@@ -123,11 +125,10 @@ class WetfootFestivalTestCase(unittest.TestCase):
         self.assertEqual(data['success'], True)
         self.assertEqual(response.status_code, 200)
 
-    
     # #---------------------------------------
     # #           ARTIST TESTS
     # #---------------------------------------
-    
+
     def test_get_artists(self):
         """Test GET /artists."""
         response = self.client().get("/artists")
@@ -158,11 +159,11 @@ class WetfootFestivalTestCase(unittest.TestCase):
         new_name = 'The dopest band that ever doped'
         body = {
             'name': new_name,
-            }
+        }
         response = self.client().patch('/artists/2',
-                                      content_type='application/json',
-                                      headers=self.auth_header_admin,
-                                      data=json.dumps(body))
+                                       content_type='application/json',
+                                       headers=self.auth_header_admin,
+                                       data=json.dumps(body))
         data = json.loads(response.data.decode())
         self.assertEqual(data['success'], True)
         self.assertEqual(data['artists']['name'], new_name)
@@ -174,7 +175,6 @@ class WetfootFestivalTestCase(unittest.TestCase):
         data = json.loads(response.data.decode())
         self.assertEqual(data['success'], True)
         self.assertEqual(response.status_code, 200)
-
 
     # #---------------------------------------
     # #           EVENTS TESTS
@@ -210,11 +210,11 @@ class WetfootFestivalTestCase(unittest.TestCase):
         new_name = 'The Least WetFootFestival'
         body = {
             'name': new_name,
-            }
+        }
         response = self.client().patch('/events/1',
-                                      content_type='application/json',
-                                      headers=self.auth_header_admin,
-                                      data=json.dumps(body))
+                                       content_type='application/json',
+                                       headers=self.auth_header_admin,
+                                       data=json.dumps(body))
         data = json.loads(response.data.decode())
         self.assertEqual(data['success'], True)
         self.assertEqual(data['events']['name'], new_name)
@@ -227,9 +227,9 @@ class WetfootFestivalTestCase(unittest.TestCase):
         self.assertEqual(data['success'], True)
         self.assertEqual(response.status_code, 200)
 
-    #---------------------------------------
+    # ---------------------------------------
     #           ERROR HANDLING TESTS
-    #---------------------------------------
+    # ---------------------------------------
 
     def test_resource_not_found(self):
         """Test resource not found"""
@@ -254,21 +254,21 @@ class WetfootFestivalTestCase(unittest.TestCase):
         self.assertEqual(data["success"], False)
         self.assertEqual(res.status_code, 422)
 
-    #---------------------------------------
+    # ---------------------------------------
     #           RBAC TESTS
-    #---------------------------------------
+    # ---------------------------------------
 
     def test_add_artist_admin(self):
         res = self.client().post('/artists',
-        headers=self.auth_header_admin_bad,
-        json=self.new_artist)
+                                 headers=self.auth_header_admin_bad,
+                                 json=self.new_artist)
         data = json.loads(res.data)
         self.assertEqual(res.status_code, 401)
 
     def test_add_event_admin(self):
         res = self.client().post('/events',
-        headers=self.auth_header_admin_bad,
-        json=self.new_event)
+                                 headers=self.auth_header_admin_bad,
+                                 json=self.new_event)
         data = json.loads(res.data)
         self.assertEqual(res.status_code, 401)
 

@@ -33,14 +33,14 @@ class WetfootFestivalTestCase(unittest.TestCase):
         self.new_volunteer = {
             'name': 'Maia',
             'phone_number': '778-777-5555',
-            'email': 'maia@gmail.com',
+            'email': 'maia_volunteer@gmail.com',
             'event': 1
         }
 
         self.new_artist = {
             'name': 'Maia',
             'phone_number': '778-777-5555',
-            'email': 'maia@gmail.com',
+            'email': 'maia_artist@gmail.com',
             'event': 1,
             'website': 'www.google.com',
             'instagram_link': 'www.instagram.com',
@@ -49,9 +49,15 @@ class WetfootFestivalTestCase(unittest.TestCase):
 
         self.auth_header_admin = {
             "Authorization": "Bearer {}".format(ADMIN_TOKEN)}
-        self.auth_header_admin_bad = {
+        self.auth_header_artist = {
+            "Authorization": "Bearer {}".format(ARTIST_TOKEN)}
+        self.auth_header_volunteer = {
+            "Authorization": "Bearer {}".format(VOLUNTEER_TOKEN)}
+        self.auth_header_bad = {
             "Authorization": "{}".format(ADMIN_TOKEN)}
+
         setup_db(self.app, self.database_path)
+
 
         # binds the app to the current context
         with self.app.app_context():
@@ -259,30 +265,74 @@ class WetfootFestivalTestCase(unittest.TestCase):
     # ---------------------------------------
 
     def test_add_artist_admin(self):
+        newer_artist = {
+            'name': 'Maia2',
+            'phone_number': '778-777-55552',
+            'email': 'maia2@gmail.com',
+            'event': 1,
+            'website': 'www.google2.com',
+            'instagram_link': 'www.instagram2.com',
+            'image_link': 'www.fakelink2.com'
+        }
         res = self.client().post('/artists',
-                                 headers=self.auth_header_admin_bad,
-                                 json=self.new_artist)
+                                 headers=self.auth_header_admin,
+                                 json=newer_artist)
         data = json.loads(res.data)
-        self.assertEqual(res.status_code, 401)
+        self.assertEqual(res.status_code, 201)
 
-    def test_add_event_admin(self):
+    def test_bad_add_event_admin(self):
         res = self.client().post('/events',
-                                 headers=self.auth_header_admin_bad,
+                                 headers=self.auth_header_bad,
                                  json=self.new_event)
         data = json.loads(res.data)
         self.assertEqual(res.status_code, 401)
 
-    # def test_create_new_movies_executive_producer(self):
-    #     res = self.client().post('/movies', headers={"Authorization": "Bearer {}".format(self.executive_producer)}, json=self.movies)
-    #     data = json.loads(res.data)
-    #     self.assertEqual(res.status_code, 200)
-    #     self.assertEqual(data['success'], True)
+    def test_add_artist_artist(self):
 
-    # def test_create_new_movies_casting_assistant(self):
-    #     res = self.client().post('/movies', headers={"Authorization": "Bearer {}".format(self.casting_assistant)}, json=self.movies)
-    #     data = json.loads(res.data)
-    #     self.assertEqual(res.status_code, 401)
-    #     self.assertEqual(data['message'], {'code': 'unauthorized', 'description':'Permission not found.'})
+        new_artist = {
+            'name': 'Maia3',
+            'phone_number': '778-777-55553',
+            'email': 'maia54@gmail.com',
+            'event': 1,
+            'website': 'www.google3.com',
+            'instagram_link': 'www.instagram3.com',
+            'image_link': 'www.fakelink3.com'
+        }
+        res = self.client().post('/artists',
+                                 headers=self.auth_header_artist,
+                                 json=new_artist)
+        data = json.loads(res.data)
+        self.assertEqual(res.status_code, 201)
+
+    def test_add_event_artist(self):
+        res = self.client().post('/events',
+                                 headers=self.auth_header_bad,
+                                 json=self.new_event)
+        data = json.loads(res.data)
+        self.assertEqual(res.status_code, 401)
+
+    def test_add_artist_volunteer(self):
+
+        new_volunteer = {
+            'name': 'Maia2',
+            'phone_number': '778-777-55',
+            'email': 'maia_volunteer2@gmail.com',
+            'event': 1
+        }
+
+        res = self.client().post('/volunteers',
+                                 headers=self.auth_header_volunteer,
+                                 json=new_volunteer)
+        data = json.loads(res.data)
+        self.assertEqual(res.status_code, 201)
+
+    def test_add_event_volunteer(self):
+        res = self.client().post('/events',
+                                 headers=self.auth_header_bad,
+                                 json=self.new_event)
+        data = json.loads(res.data)
+        self.assertEqual(res.status_code, 401)
+
 
 
 # Make the tests conveniently executable

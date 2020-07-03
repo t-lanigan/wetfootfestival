@@ -21,11 +21,19 @@ source activate wetfootfestival
 make deps
 ```
 
+Create the database using:
+
+`createdb wetfootfestival`
+
 
 ## Usage
 Run the command below to start the app.
 
 `make run`
+
+or
+
+`FLASK_APP=app.py FLASK_ENV=development flask run`
 
 ## Unit tests
 
@@ -37,7 +45,7 @@ __NOTE:__ In order to run the test suit you need an active token from login in. 
 
 
 ## Running migrations
-Use the following commands to run database migrations to add tables or columns.
+Use the following commands to run database migrations to add tables or columns (not nessesary for tests)
 
 * `make init-db`
 * `make migrate-db`
@@ -56,28 +64,32 @@ To test endpoints requiring permissions a requets using the following header mus
 The token that can be used is:
 
 ```
-eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InhUUWJaTlZnYzVMVFVxdHFzU2t2YyJ9.eyJpc3MiOiJodHRwczovL3R5bGVycy10ZXN0LmF1dGgwLmNvbS8iLCJzdWIiOiJnb29nbGUtb2F1dGgyfDEwNzM5NDcwMTI4MjUzNTgyNTk1OSIsImF1ZCI6IndldGZvb3RmZXN0aXZhbCIsImlhdCI6MTU5Mzc0MDU5MSwiZXhwIjoxNTkzNzQ3NzkxLCJhenAiOiJMRmxpbm40WUN5MkxObkpkenc2YzBrMnVPd2w1OW5LSCIsInNjb3BlIjoiIiwicGVybWlzc2lvbnMiOlsiYWZmZWN0OmFydGlzdHMiLCJhZmZlY3Q6ZXZlbnRzIiwiYWZmZWN0OnZvbHVudGVlcnMiXX0.X2ptB9VssyQGdK3IlVmsCMRUybRd6QdZmXrjgBTjaqBpuxO6ZO8AVt835OGiUfbA6GI5V_DClbK-AYYrJUf38xTuowAmvNkLNNLzT9xnrb1nlShkerqNwZeJnpuRd0bBN0BzaYpI0vRVNekTUJw0NalazDvf2ktFRyy-VSRcUfRo1oxHft8XTnu9Wn3I30ps_EiCV07nOM-TnDMBKTiAH6rT5UMOTL05oQslzl2F2Q2GRh7NmuDvJd89KWJ_V7XUtXV6_XEETp8BnpDTEfDfrOLBUM1tpVnqdqGkepo05pvUA4y6932IqBjmoJMxiCNRTrQ230GMycsf1v1EAa7CRw
+eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InhUUWJaTlZnYzVMVFVxdHFzU2t2YyJ9.eyJpc3MiOiJodHRwczovL3R5bGVycy10ZXN0LmF1dGgwLmNvbS8iLCJzdWIiOiJnb29nbGUtb2F1dGgyfDEwNzM5NDcwMTI4MjUzNTgyNTk1OSIsImF1ZCI6IndldGZvb3RmZXN0aXZhbCIsImlhdCI6MTU5Mzc0ODc1NSwiZXhwIjoxNTkzODM1MTU1LCJhenAiOiJMRmxpbm40WUN5MkxObkpkenc2YzBrMnVPd2w1OW5LSCIsInNjb3BlIjoiIiwicGVybWlzc2lvbnMiOlsiYWZmZWN0OmFydGlzdHMiLCJhZmZlY3Q6ZXZlbnRzIiwiYWZmZWN0OnZvbHVudGVlcnMiXX0.TMKu_ap8jlMKlWwKKxDAI-IATRRatWNId1AEdjtGEwExuKU2zrJeSeUIC9pjHDmbS0CHwt9Fn-xKDq2it9XqdIQv_ufMyijPGkO7Siv8tE2j5dBVbj_XHYTbuR73QnO8Pxk29x4RDF5TfcY3JwL2HV6MlYpFzgwNIZbQ0PggjP6yaRc5ugowPSVRrOM_TFN-WXB2QQiiByNJXrKU0gLql4IXyHgnkw7pcMeh_W-RTA1E5EJa0fu9Zd759qLaT2rO2PLVgS4e2RGeZClk6SFUeq1qYxRGESW_WWb71sZwBd5DE6-lKGupvvg4WMkDjcu5LV9CLPBymE_aMKlRcvGAqg
 ```
 
 The Auth0 Domain Name, JWT code signing secret and Auth0 Client ID are included in setup.sh
 
 ## Signing in
 
-visit `https://wetfootfestival.herokuapp.com/login`.
+Visit `https://wetfootfestival.herokuapp.com/login`.
 
-This will get you a token with no roles assigned that can currently communicate with the `GET` endpoints.
-
-## roles-based access control (RBAC)
+### Roles-based access control (RBAC)
 
 There are three roles associated with this project:
 
 * ADMIN: `affect:events`, `affect:artists`, `affect:volunteers`
+  * username: adminwetfootfestival@gmail.com
+  * password: #123Adminwetfootfestival
 * VOLUNTEER: `affect:volunteers`
+  * username: volunteerwetfootfestival@gmail.com
+  * password: #123Volunteerswetfootfestival
 * ARTIST: `affect:artists`
+  * username: artistwetfootfestival@gmail.com
+  * password: #123Artistswetfootfestival
 
+You can use these to generate tokens if the provided ones are expired.
 
 ## API Documentation
-
 
 There are the following endpoints availible:
 
@@ -174,8 +186,16 @@ _Response:_
 {'success': True}
 ```
 
+## Deployment
+
+`git push heroku master`
+
+or
+
+`make deploy`
 
 ## Contributing
 Pull requests are welcome. For major changes, please open an issue first to discuss what you would like to change. Please make sure to update tests as appropriate.
 
-License
+## License
+MIT

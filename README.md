@@ -2,6 +2,12 @@
 
 The Wetfoot Festival Website! Wetfoot festival is a festival that happens every year in Vancvouer, BC. This website allow for admins to create the festival every year and for artists and volunteers to sign up to contribute.
 
+## Signing in
+
+Visit `https://wetfootfestival.herokuapp.com/login`.
+
+See RBAC section below for example usernames and passwords.
+
 ## Technologies
 Python3
 Flask
@@ -69,9 +75,6 @@ eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6InhUUWJaTlZnYzVMVFVxdHFzU2t2YyJ9.eyJ
 
 The Auth0 Domain Name, JWT code signing secret and Auth0 Client ID are included in setup.sh
 
-## Signing in
-
-Visit `https://wetfootfestival.herokuapp.com/login`.
 
 ### Roles-based access control (RBAC)
 
@@ -82,10 +85,10 @@ There are three roles associated with this project:
   * password: #123Adminwetfootfestival
 * VOLUNTEER: `affect:volunteers`
   * username: volunteerwetfootfestival@gmail.com
-  * password: #123Volunteerswetfootfestival
+  * password: #123Volunteerwetfootfestival
 * ARTIST: `affect:artists`
   * username: artistwetfootfestival@gmail.com
-  * password: #123Artistswetfootfestival
+  * password: #123Artistwetfootfestival
 
 You can use these to generate tokens if the provided ones are expired.
 

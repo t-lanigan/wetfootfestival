@@ -99,7 +99,7 @@ def create_app(test_config=None):
             abort(500)
 
     @app.route('/volunteers', methods=['POST'])
-    @requires_auth('affect:volunteers')
+    @requires_auth('post:volunteers')
     def create_volunteer(*args, **kwargs):
         """Creates a Volunteer.
 
@@ -124,7 +124,7 @@ def create_app(test_config=None):
             abort(422)
 
     @app.route('/volunteers/<int:volunteer_id>', methods=['PATCH'])
-    @requires_auth('affect:volunteers')
+    @requires_auth('patch:volunteers')
     def update_volunteer(*args, **kwargs):
         """Updates a volunteer
 
@@ -155,7 +155,7 @@ def create_app(test_config=None):
             abort(422)
 
     @app.route('/volunteers/<int:volunteer_id>', methods=['DELETE'])
-    @requires_auth('affect:volunteers')
+    @requires_auth('delete:volunteers')
     def delete_volunteer(*args, **kwargs):
         try:
             volunteer_id = kwargs.get("volunteer_id")
@@ -218,7 +218,7 @@ def create_app(test_config=None):
             abort(500)
 
     @app.route('/artists', methods=['POST'])
-    @requires_auth('affect:artists')
+    @requires_auth('post:artists')
     def create_artist(*args, **kwargs):
         """Creates a Artist.
 
@@ -246,7 +246,7 @@ def create_app(test_config=None):
             abort(422)
 
     @app.route('/artists/<int:artist_id>', methods=['PATCH'])
-    @requires_auth('affect:artists')
+    @requires_auth('patch:artists')
     def update_artist(*args, **kwargs):
         """Updates a artists
 
@@ -280,12 +280,13 @@ def create_app(test_config=None):
             abort(422)
 
     @app.route('/artists/<int:artist_id>', methods=['DELETE'])
-    @requires_auth('affect:artists')
+    @requires_auth('delete:artists')
     def delete_artists(*args, **kwargs):
         try:
             artist_id = kwargs.get("artist_id")
             artist = Artist.query.filter_by(id=artist_id).one_or_none()
             if not artist:
+                s
                 return jsonify({
                     "success": True,
                     "message": "Artist id: {} not found".format(artist_id)
@@ -342,7 +343,7 @@ def create_app(test_config=None):
             abort(500)
 
     @app.route('/events', methods=['POST'])
-    @requires_auth('affect:events')
+    @requires_auth('post:events')
     def create_event(*args, **kwargs):
         """Creates a Event.
 
@@ -369,7 +370,7 @@ def create_app(test_config=None):
             abort(422)
 
     @app.route('/events/<int:event_id>', methods=['PATCH'])
-    @requires_auth('affect:events')
+    @requires_auth('patch:events')
     def update_event(*args, **kwargs):
         """Updates an event
 
@@ -399,7 +400,7 @@ def create_app(test_config=None):
             abort(422)
 
     @app.route('/events/<int:event_id>', methods=['DELETE'])
-    @requires_auth('affect:events')
+    @requires_auth('delete:events')
     def delete_event(*args, **kwargs):
         """Deletes an event
 

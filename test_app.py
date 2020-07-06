@@ -58,7 +58,6 @@ class WetfootFestivalTestCase(unittest.TestCase):
 
         setup_db(self.app, self.database_path)
 
-
         # binds the app to the current context
         with self.app.app_context():
             self.db = SQLAlchemy()
@@ -332,7 +331,6 @@ class WetfootFestivalTestCase(unittest.TestCase):
                                  json=self.new_event)
         data = json.loads(res.data)
         self.assertEqual(res.status_code, 401)
-
 
 
 # Make the tests conveniently executable

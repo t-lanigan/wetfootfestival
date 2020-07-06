@@ -9,6 +9,8 @@ db = SQLAlchemy()
 setup_db(app)
     binds a flask application and a SQLAlchemy service
 '''
+
+
 def setup_db(app, database_path=os.environ['DATABASE_URL']):
 
     app.config["SQLALCHEMY_DATABASE_URI"] = database_path

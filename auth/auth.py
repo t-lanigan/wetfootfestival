@@ -9,6 +9,7 @@ AUTH0_DOMAIN = 'tylers-test.auth0.com'
 ALGORITHMS = ['RS256']
 API_AUDIENCE = 'wetfootfestival'
 
+
 class AuthError(Exception):
     """A standardized way to communicate auth failure modes
     Extends: Exception

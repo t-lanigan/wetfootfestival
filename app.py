@@ -52,10 +52,10 @@ def create_app(test_config=None):
         print(auth0_login)
         return redirect(auth0_login)
 
-
-    #---------------------------------------
+    # ---------------------------------------
     #           VOLUNTEER CONTROLLERS
-    #---------------------------------------
+    # ---------------------------------------
+
     @app.route('/volunteers/<int:volunteer_id>', methods=['GET'])
     def get_volunteer(volunteer_id):
         """Gets a single volunteer
@@ -67,7 +67,8 @@ def create_app(test_config=None):
             response: json, status code
         """
         try:
-            volunteer = Volunteer.query.filter_by(id=volunteer_id).one_or_none()
+            volunteer = Volunteer.query.filter_by(
+                id=volunteer_id).one_or_none()
             response = jsonify({
                 'volunteers': volunteer.format(),
                 'success': True
@@ -76,7 +77,6 @@ def create_app(test_config=None):
         except Exception as e:
             app.logger.error(e)
             abort(404)
-
 
     @app.route('/volunteers', methods=['GET'])
     def get_volunteers():
@@ -134,10 +134,12 @@ def create_app(test_config=None):
         try:
             volunteer_id = kwargs.get("volunteer_id")
             body = request.get_json()
-            volunteer = Volunteer.query.filter_by(id=volunteer_id).one_or_none()
+            volunteer = Volunteer.query.filter_by(
+                id=volunteer_id).one_or_none()
 
             volunteer.name = body.get('name', volunteer.name)
-            volunteer.phone_number = body.get('phone_number', volunteer.phone_number)
+            volunteer.phone_number = body.get(
+                'phone_number', volunteer.phone_number)
             volunteer.email = body.get('email', volunteer.email)
             volunteer.event = body.get('event', volunteer.event)
 
@@ -154,11 +156,12 @@ def create_app(test_config=None):
     def delete_volunteer(*args, **kwargs):
         try:
             volunteer_id = kwargs.get("volunteer_id")
-            volunteer = Volunteer.query.filter_by(id=volunteer_id).one_or_none()
+            volunteer = Volunteer.query.filter_by(
+                id=volunteer_id).one_or_none()
             if not volunteer:
                 return jsonify({
-                "success": True,
-                "message": "Volunteer id: {} not found".format(volunteer_id)
+                    "success": True,
+                    "message": "Volunteer id: {} not found".format(volunteer_id)
                 }), 404
             volunteer.delete()
             return jsonify({
@@ -167,11 +170,10 @@ def create_app(test_config=None):
         except Exception as e:
             app.logger.error(e)
             abort(500)
-    
-    
-    #---------------------------------------
+
+    # ---------------------------------------
     #           ARTIST CONTROLLERS
-    #---------------------------------------
+    # ---------------------------------------
 
     @app.route('/artists/<int:artist_id>', methods=['GET'])
     def get_artist(artist_id):
@@ -193,7 +195,6 @@ def create_app(test_config=None):
         except Exception as e:
             app.logger.error(e)
             abort(404)
-
 
     @app.route('/artists', methods=['GET'])
     def get_artists():
@@ -261,10 +262,11 @@ def create_app(test_config=None):
             artist.email = body.get('email', artist.email)
             artist.event = body.get('event', artist.event)
             artist.website = body.get('website', artist.website)
-            artist.instagram_link = body.get('instagram_link', artist.instagram_link)
+            artist.instagram_link = body.get(
+                'instagram_link', artist.instagram_link)
             artist.image_link = body.get('image_link', artist.image_link)
             artist.update()
-            
+
             return jsonify({
                 'success': True,
                 'artists': artist.format()
@@ -281,8 +283,8 @@ def create_app(test_config=None):
             artist = Artist.query.filter_by(id=artist_id).one_or_none()
             if not artist:
                 return jsonify({
-                "success": True,
-                "message": "Artist id: {} not found".format(artist_id)
+                    "success": True,
+                    "message": "Artist id: {} not found".format(artist_id)
                 }), 404
             artist.delete()
             return jsonify({
@@ -292,9 +294,9 @@ def create_app(test_config=None):
             app.logger.error(e)
             abort(500)
 
-    #---------------------------------------
+    # ---------------------------------------
     #           EVENT CONTROLLERS
-    #---------------------------------------
+    # ---------------------------------------
 
     @app.route('/events/<int:event_id>', methods=['GET'])
     def get_event(*args, **kwargs):
@@ -317,7 +319,6 @@ def create_app(test_config=None):
         except Exception as e:
             app.logger.error(e)
             abort(404)
-
 
     @app.route('/events', methods=['GET'])
     def get_events():
@@ -401,7 +402,7 @@ def create_app(test_config=None):
         Returns:
             response: json, status_code
         """
-        #TODO: How to handle the artist and volunteer entries?
+        # TODO: How to handle the artist and volunteer entries?
         try:
             event_id = kwargs.get("event_id")
             event = Event.query.filter_by(id=event_id).one_or_none()
@@ -413,10 +414,9 @@ def create_app(test_config=None):
             app.logger.error(e)
             abort(500)
 
-
-    #---------------------------------------
+    # ---------------------------------------
     #           ERROR HANDLERS
-    #---------------------------------------
+    # ---------------------------------------
 
     @app.errorhandler(422)
     def unprocessable(error):
@@ -425,7 +425,6 @@ def create_app(test_config=None):
             'error': 422,
             'message': 'unprocessable'
         }), 422
-
 
     @app.errorhandler(404)
     def resource_not_found_error(error):
@@ -436,7 +435,6 @@ def create_app(test_config=None):
         })
         return response, 404
 
-
     @app.errorhandler(AuthError)
     def unprocessible_entity_error(error):
         response = jsonify({
@@ -445,7 +443,6 @@ def create_app(test_config=None):
             'message': 'AuthError: {}'.format(error.error)
         })
         return response, error.status_code
-
 
     @app.errorhandler(500)
     def internal_server_error(error):
@@ -456,6 +453,7 @@ def create_app(test_config=None):
         return response, 500
 
     return app
+
 
 app = create_app()
 

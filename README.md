@@ -80,13 +80,13 @@ The Auth0 Domain Name, JWT code signing secret and Auth0 Client ID are included 
 
 There are three roles associated with this project:
 
-* ADMIN: `affect:events`, `affect:artists`, `affect:volunteers`
+* ADMIN: (all permissions)
   * username: adminwetfootfestival@gmail.com
   * password: #123Adminwetfootfestival
-* VOLUNTEER: `affect:volunteers`
+* VOLUNTEER: (all volunteer permissions)
   * username: volunteerwetfootfestival@gmail.com
   * password: #123Volunteerwetfootfestival
-* ARTIST: `affect:artists`
+* ARTIST: (all artist permissions)
   * username: artistwetfootfestival@gmail.com
   * password: #123Artistwetfootfestival
 

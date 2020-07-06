@@ -104,7 +104,8 @@ class Event(CommonModel):
             'phone_number': self.phone_number,
             'email': self.email,
             'artists': [artist.format() for artist in self.artists],
-            'volunteers': [volunteer.format() for volunteer in self.volunteers],
+            'volunteers': [volunteer.format()
+                           for volunteer in self.volunteers],
             'venue_name': self.venue_name,
             'theme': self.theme,
             'website': self.website}

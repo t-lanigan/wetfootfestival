@@ -68,11 +68,12 @@ def get_token_auth_header():
 def check_permissions(permission, payload):
     """Checks if the required permission is in the payload.
     Arguments:
-        permission str -- the permissions string being sought after (e.g get:drinks)
+        permission str -- the permissions string being sought.
         payload dict -- the payload
     Raises:
         AuthError: if permissions are not included in the payload
-        AuthError: if the requested permission string is not in the payload permissions array
+        AuthError: if the requested permission string is not in the
+                   permissions array
     Returns:
         boolean -- true, false
     """
@@ -149,7 +150,8 @@ def verify_decode_jwt(token):
         except jwt.JWTClaimsError:
             raise AuthError({
                 'code': 'invalid_claims',
-                'description': 'Incorrect claims. Please, check the audience and issuer.'
+                'description': 'Incorrect claims. Please, check the audience\
+                                and issuer.'
             }, 401)
         except Exception:
             raise AuthError({

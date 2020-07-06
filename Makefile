@@ -6,7 +6,6 @@ DB_NAME := wetfootfestival
 deps:
 	pip3 install -r requirements.txt
 	pg_ctl -D /usr/local/var/postgres start
-	@createdb $(DB_NAME)
 
 test:
 	@dropdb $(DB_NAME)

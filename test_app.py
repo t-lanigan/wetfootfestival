@@ -125,7 +125,8 @@ class WetfootFestivalTestCase(unittest.TestCase):
 
     def test_delete_volunteer(self):
         """Test DELETE /volunteers"""
-        response = self.client().delete("/volunteers/1", headers=self.auth_header_admin)
+        response = self.client().delete("/volunteers/1",
+                                        headers=self.auth_header_admin)
         data = json.loads(response.data.decode())
         self.assertEqual(data['success'], True)
         self.assertEqual(response.status_code, 200)
@@ -176,7 +177,8 @@ class WetfootFestivalTestCase(unittest.TestCase):
 
     def test_delete_artist(self):
         """Test DELETE /artists"""
-        response = self.client().delete("/artists/1", headers=self.auth_header_admin)
+        response = self.client().delete("/artists/1",
+                                        headers=self.auth_header_admin)
         data = json.loads(response.data.decode())
         self.assertEqual(data['success'], True)
         self.assertEqual(response.status_code, 200)
@@ -227,7 +229,8 @@ class WetfootFestivalTestCase(unittest.TestCase):
 
     def test_delete_event(self):
         """Test DELETE /events"""
-        response = self.client().delete("/events/2", headers=self.auth_header_admin)
+        response = self.client().delete("/events/2",
+                                        headers=self.auth_header_admin)
         data = json.loads(response.data.decode())
         self.assertEqual(data['success'], True)
         self.assertEqual(response.status_code, 200)
@@ -243,7 +246,8 @@ class WetfootFestivalTestCase(unittest.TestCase):
 
     def test_internal_service_error(self):
         """Test internal_service_error, should be rare"""
-        response = self.client().delete("/events/10", headers=self.auth_header_admin)
+        response = self.client().delete("/events/10",
+                                        headers=self.auth_header_admin)
         data = json.loads(response.data.decode())
         self.assertEqual(data["success"], False)
         self.assertEqual(response.status_code, 500)

@@ -7,6 +7,8 @@ from models import db
 migrate = Migrate(app, db)
 manager = Manager(app)
 
+# TODO: Understand why this works weird (first time running migrate doesn't seem to generate
+# the correct version file)
 manager.add_command('db', MigrateCommand)
 
 

@@ -4,6 +4,7 @@ from models import setup_db, Volunteer, Artist, Event
 from flask_cors import CORS
 from auth.auth import AuthError, requires_auth
 import os
+# TODO: Move to a routes folder
 
 
 def create_app(test_config=None):

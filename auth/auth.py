@@ -95,6 +95,8 @@ def check_permissions(permission, payload):
 https://stackoverflow.com/questions/50236117/scraping-ssl-certificate-verify-failed-error-for-http-en-wikipedia-org
 '''
 
+# TODO: Understand why this works. Why is this secure?)
+
 
 def verify_decode_jwt(token):
     """verify the token using Auth0 /.well-known/jwks.json
